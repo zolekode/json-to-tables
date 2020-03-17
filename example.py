@@ -28,7 +28,7 @@ automobiles = [
                 "month": "Sep",
                 "year": 202
             },
-            "creators": ["Anabel", {"GreenMotors": {"CEO": "Charles Green"}}, {"WhiteMotors": {"CEO": "Karl Max"}}, {"GreenMotors": {"CEO": "Robert"}}]
+            "creators": ["Anabel", {"GreenMotors": {"CEO": "Charles Green"}}]
         }
     },
 ]
