@@ -45,16 +45,20 @@ First, you load the JSON string.
 
 Then run the following code:
 ```
-extent_table = ExtentTable() # Creates an extent table object that manages all the tables
-table_maker = TableMaker(extent_table) # Pass the extent table object to the table maker
+# Creates an extent table object that manages all the tables
+extent_table = ExtentTable()
 
-# Below is the name of the objects you are trying to convert. In our case, we are dealing with automobiles
-# hence the "root" name will be automobiles
+
+# Pass the extent table object to the table maker
+table_maker = TableMaker(extent_table) 
+
+
+# Below is the name of the objects you are trying to convert. In our case, we are dealing with automobiles hence the "root" name will be automobiles
 root_table_name = "automobiles" 
+
 
 table_maker.convert_json_objects_to_tables(automobiles, root_table_name)
 
+
 # num_elements is the max number of elements to show when printing the tables
 table_maker.show_tables(num_elements=5)
-
-Once 
