@@ -1,11 +1,12 @@
 # json-to-tables
-This is a simple package to help you convert any json schema into SQL-like **csv** tables.
+This is a simple package to help you convert any dynamic json file into SQL-like **csv** tables.
 
 ## Installation
 Just clone the project or merge the core package into your own project.
 
 ## Usage Fast Please
-```json_objects = automobiles = [
+Assume you want to convert the JSON file below to tables.
+```automobiles = [
     {
         "name": "truck",
         "brand": "BMW",
@@ -36,3 +37,22 @@ Just clone the project or merge the core package into your own project.
     },
 ]
 ```
+First, you load the JSON string and convert it into a list dictionaries
+`# automobiles = json.dumps(automobiles) uncomment this line if you directly copy the JSON file above in your script for testing`
+```automobiles = json.loads(automobiles)```
+
+Then run the following code:
+```
+extent_table = ExtentTable() # Creates an extent table object that manages all the tables
+table_maker = TableMaker(extent_table) # Pass the extent table object to the table maker
+
+# Below is the name of the objects you are trying to convert. In our case, we are dealing with automobiles
+# hence the "root" name will be automobiles
+root_table_name = "automobiles" 
+
+table_maker.convert_json_objects_to_tables(automobiles, root_table_name)
+
+# num_elements is the max number of elements to show when printing the tables
+table_maker.show_tables(num_elements=5)
+
+Once 
