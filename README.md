@@ -118,9 +118,7 @@ ____________________________________________________
 
 Note: For Multivalued attributes (like lists) it is a little trickier. There are 4 attributes you need to consider.
 * The parent ID: The table engine_?_creators was generated from the creators attribute contained in the engine attribute found in the JSON file. Hence the name engine_?_creators. The ? mark character tells you creators was a list in engine object.
-Therefore, the where the PARENT_ID=0, this just means, refer to the row with ID=0 in the engine table. 
-
-Let us test this. Look at the attribute scalar with values Sandy, Leslie and Kane. They all have a parent ID=0. This exactly corresponds to the engine with brand=RR.
+Therefore, the where the PARENT_ID=0, this just means, refer to the row with ID=0 in the engine table. Let us test this. Look at the attribute scalar with values Sandy, Leslie and Kane. They all have a parent ID=0. This exactly corresponds to the engine with brand=RR.
 
 * The is_scalar attribute: The value of this column is set to `True` if the value found in the list is a scalar. Note that there was only one case where the value wasn't a scalar i.e `{"GreenMotors": {"CEO": "Charles Green"}}`.
 
