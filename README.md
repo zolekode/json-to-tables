@@ -140,8 +140,14 @@ Note: You might now wonder how the value=`{"GreenMotors": {"CEO": "Charles Green
 * The PARENT_ID=4 gives us its reference as row with ID=4 in the `engine_?_creators` table. Since the attribute `GreenMotors` itself is again complex, a table `GreenMotors` is created with its attribute `CEO`. The row with ID=0 in the `GreenMotors` table has CEO="Charles Green". As a result, the column `GreenMotors` in the `engine_?_creators_$_GreenMotors` table has a value of `0` to reference to that table. 
 
 
+#### Conclusion
 I know it might be alot to digest but just take your time to read and test it out yourself. I included an example script you can run. 
 
-#### Tip
+### Tip
 
 Try to use different names for objects that have different meanings in your JSON file. Things could get confusing if not.
+
+* To save tables just use: `table_maker.save_tables("path_to_directory/")`
+* To convert one object to a table: `table_maker.convert_json_object_to_table(json_object, root_table_name)`
+* The last row in some tables might contain an ID and `None` values. They were just appended out of convinience so just delete them before using the table for futher processing.
+* Do not modify the ExtentTable unless you are certain about what you are doing.
