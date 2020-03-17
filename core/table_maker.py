@@ -41,8 +41,7 @@ class TableMaker:
     def __add_iterable_to_table(self, table_name: str, attribute: str, values: list) -> None:
         multivalued_table_name = table_name + "_?_" + attribute
         self.__extent_table.create_table(table_name)  # creates table if none existent
-        columns = [ExtentTable.ID_COLUMN, ExtentTable.PARENT_COLUMN, ExtentTable.IS_SCALAR, ExtentTable.SCALAR_VALUE,
-                   ExtentTable.COMPLEX_VALUE]
+        columns = [ExtentTable.ID_COLUMN, ExtentTable.PARENT_COLUMN, ExtentTable.IS_SCALAR, ExtentTable.SCALAR_VALUE]
         self.__extent_table.create_table_from_columns(multivalued_table_name, columns)
         parent_table_current_id = self.__extent_table.get_current_id(table_name)
         rows = list()
@@ -54,14 +53,13 @@ class TableMaker:
                 row[ExtentTable.IS_SCALAR] = False
                 row[ExtentTable.SCALAR_VALUE] = None
                 reference_table_name = self.__generate_table_name_from_complex_attribute(multivalued_table_name, value)
-                reference_table_id = self.convert_json_object_to_table(value, reference_table_name)
-                row[ExtentTable.COMPLEX_VALUE] = str(reference_table_id)
+                value[ExtentTable.PARENT_COLUMN] = row[ExtentTable.ID_COLUMN]
+                self.convert_json_object_to_table(value, reference_table_name)
             else:
                 row[ExtentTable.ID_COLUMN] = self.__extent_table.get_current_id(multivalued_table_name)
                 row[ExtentTable.PARENT_COLUMN] = str(parent_table_current_id)
                 row[ExtentTable.IS_SCALAR] = True
                 row[ExtentTable.SCALAR_VALUE] = str(value)
-                row[ExtentTable.COMPLEX_VALUE] = None
             rows.append(row)
             self.__extent_table.increment_current_id_pointer(multivalued_table_name)
         new_table = pd.DataFrame(rows)
@@ -73,9 +71,12 @@ class TableMaker:
     def __is_value_complex(self, value) -> bool:
         return isinstance(value, dict)
 
-    def show_tables(self, num_elements: int) -> None:
+    def show_tables(self, num_elements: int = 5) -> None:
         tables = self.__extent_table.get_all_tables()
+        print("\n")
+        print("SHOWING TABLES :D")
         for table_name, table in tables:
+            print("\n")
             print(table_name)
             print(table.head(num_elements))
             print("____________________________________________________")
