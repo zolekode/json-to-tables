@@ -37,8 +37,10 @@ Assume you want to convert the JSON file below to tables.
     },
 ]
 ```
-First, you load the JSON string and convert it into a list dictionaries
-`# automobiles = json.dumps(automobiles) uncomment this line if you directly copy the JSON file above in your script for testing`
+First, you load the JSON string.
+```
+# automobiles = json.dumps(automobiles) uncomment this line if you directly copy the JSON file above in your script for testing
+```
 ```automobiles = json.loads(automobiles)```
 
 Then run the following code:
