@@ -4,7 +4,7 @@ This is a simple package to help you convert any dynamic json file into SQL-like
 ## Installation
 Just clone the project or merge the core package into your own project.
 
-## Usage Fast Please
+## Usage
 Assume you want to convert the JSON file below to tables.
 ```automobiles = [
     {
