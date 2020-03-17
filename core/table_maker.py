@@ -13,14 +13,19 @@ class TableMaker:
             self.convert_json_object_to_table(json_object, name)
 
     def convert_json_object_to_table(self, json_object: dict, name: str) -> int:
-        self.__populate_table(json_object, name)
+        successfully_populated = self.__populate_table(json_object, name)
+        if not successfully_populated:
+            return -1
         current_id = self.__extent_table.get_current_id(name)
         self.__extent_table.increment_current_id(name)
         return current_id
 
-    def __populate_table(self, json_object: dict, name: str) -> None:
+    def __populate_table(self, json_object: dict, name: str) -> bool:
+        successfully_populated = False
         for key, value in json_object.items():
             self.__add_values_to_table(name, key, value)
+            successfully_populated = True
+        return successfully_populated
 
     def __add_values_to_table(self, table_name: str, attribute: str, value) -> None:
         if self.__is_value_complex(value):
@@ -33,12 +38,17 @@ class TableMaker:
     def __add_complex_value_to_table(self, table_name: str, attribute: str, value: dict) -> None:
         reference_table_name = attribute
         reference_table_id = self.convert_json_object_to_table(value, reference_table_name)
-        self.__extent_table.add_value(table_name, reference_table_name, reference_table_id)
+        if reference_table_id >= 0:
+            self.__extent_table.add_value(table_name, reference_table_name, reference_table_id)
 
     def __add_scalar_value_to_table(self, table_name: str, attribute: str, value) -> None:
         self.__extent_table.add_value(table_name, attribute, value)
 
     def __add_iterable_to_table(self, table_name: str, attribute: str, values: list) -> None:
+
+        if len(values) == 0:
+            return
+
         multivalued_table_name = table_name + "_?_" + attribute
         self.__extent_table.create_table(table_name)  # creates table if none existent
         columns = [ExtentTable.ID_COLUMN, ExtentTable.PARENT_COLUMN, ExtentTable.IS_SCALAR, ExtentTable.SCALAR_VALUE]
