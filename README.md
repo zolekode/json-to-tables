@@ -45,6 +45,10 @@ First, you load the JSON string.
 
 Then run the following code:
 ```
+import json
+from core.extent_table import ExtentTable
+from core.table_maker import TableMaker
+
 # Creates an extent table object that manages all the tables
 extent_table = ExtentTable()
 
