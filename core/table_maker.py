@@ -91,10 +91,21 @@ class TableMaker:
             print(table.head(num_elements))
             print("____________________________________________________")
 
-    def save_tables(self, directory: str) -> None:
+    def save_tables(self, directory: str, export_as="csv", sql_connection=None) -> None:
+        """
+        :param sql_connection: the sql connection if you export as sql. Otherwise just ignore the parameter
+        :param directory: the directory path
+        :param export_as: allowed values are: "csv", "sql", "html"
+        :return: nothing
+        """
         tables = self.__extent_table.get_all_tables()
         for table_name, table in tables:
-            table.to_csv(directory + table_name + ".csv", index=False)
+            if export_as == "csv":
+                table.to_csv(directory + table_name + "." + export_as, index=False)
+            elif export_as == "sql":
+                table.to_sql(directory + table_name + "." + export_as, con=sql_connection)
+            else:
+                table.to_html(directory + table_name + "." + export_as, index=False)
 
     def __generate_table_name_from_complex_attribute(self, base_name: str, value: dict) -> str:
         keys = sorted(value.keys())
