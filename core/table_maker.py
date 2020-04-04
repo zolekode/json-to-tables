@@ -94,7 +94,7 @@ class TableMaker:
     def save_tables(self, directory: str, export_as="csv", sql_connection=None) -> None:
         """
         :param sql_connection: the sql connection if you export as sql. Otherwise just ignore the parameter
-        :param directory: the directory path
+        :param directory: the directory path for csv and html. For sql, pass in the root name share by all tables
         :param export_as: allowed values are: "csv", "sql", "html"
         :return: nothing
         """
@@ -103,7 +103,7 @@ class TableMaker:
             if export_as == "csv":
                 table.to_csv(directory + table_name + "." + export_as, index=False)
             elif export_as == "sql":
-                table.to_sql(directory + table_name + "." + export_as, con=sql_connection)
+                table.to_sql(directory + table_name, con=sql_connection)
             else:
                 table.to_html(directory + table_name + "." + export_as, index=False)
 
