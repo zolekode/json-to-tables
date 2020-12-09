@@ -44,7 +44,7 @@ First, you load the JSON string.
 ```automobiles = json.loads(automobiles)```
 
 Then run the following code:
-```
+```python
 import json
 from core.extent_table import ExtentTable
 from core.table_maker import TableMaker
