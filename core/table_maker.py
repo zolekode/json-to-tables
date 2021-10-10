@@ -1,5 +1,9 @@
 import pandas as pd
 from core.extent_table import ExtentTable
+import logging
+import sys
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 class TableMaker:
@@ -14,10 +18,14 @@ class TableMaker:
 
     def convert_json_object_to_table(self, json_object: dict, name: str) -> int:
         successfully_populated = self.__populate_table(json_object, name)
+
         if not successfully_populated:
             return -1
+
         current_id = self.__extent_table.get_current_id(name)
+
         self.__extent_table.increment_current_id(name)
+
         return current_id
 
     def __populate_table(self, json_object: dict, name: str) -> bool:
@@ -83,13 +91,13 @@ class TableMaker:
 
     def show_tables(self, num_elements: int = 5) -> None:
         tables = self.__extent_table.get_all_tables()
-        print("\n")
-        print("SHOWING TABLES :D")
+
+        logging.info("\n")
+
+        logging.info("SHOWING TABLES :D\n")
+
         for table_name, table in tables:
-            print("\n")
-            print(table_name)
-            print(table.head(num_elements))
-            print("____________________________________________________")
+            logging.info("\nTable: " + table_name + "\n" + str(table.head(num_elements)) + "\n___________________\n\n")
 
     def save_tables(self, directory: str, export_as="csv", sql_connection=None) -> None:
         """

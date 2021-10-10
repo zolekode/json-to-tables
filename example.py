@@ -34,9 +34,29 @@ automobiles = [
 ]
 
 automobiles = json.dumps(automobiles)
+
 automobiles = json.loads(automobiles)
 
 extent_table = ExtentTable()
+
 table_maker = TableMaker(extent_table)
+
 table_maker.convert_json_objects_to_tables(automobiles, "automobiles")
+
+table_maker.show_tables(8)
+
+# Saving the state of the ExtentTable object for later use
+
+extent_table.save_extent_table_state()
+
+extent_table = ExtentTable()
+
+table_maker = TableMaker(extent_table)
+
+extent_table.load_extent_table_state()
+
+# Continue adding objects. We are basically just saving the info twice for the sake of example.
+
+table_maker.convert_json_objects_to_tables(automobiles, "automobiles")
+
 table_maker.show_tables(8)
