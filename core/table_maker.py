@@ -1,7 +1,9 @@
 import pandas as pd
+import pandas.api.types as t
 from core.extent_table import ExtentTable
 import logging
 import sys
+import numpy as np
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
@@ -99,15 +101,31 @@ class TableMaker:
         for table_name, table in tables:
             logging.info("\nTable: " + table_name + "\n" + str(table.head(num_elements)) + "\n___________________\n\n")
 
-    def save_tables(self, directory: str, export_as="csv", sql_connection=None) -> None:
+    def save_tables(self, directory: str, export_as="csv", sql_connection=None, cast_none_to_nan: bool = False,
+                    cast_object_to_bool: bool = False) -> None:
         """
         :param sql_connection: the sql connection if you export as sql. Otherwise just ignore the parameter
         :param directory: the directory path for csv and html. For sql, pass in the root name share by all tables
         :param export_as: allowed values are: "csv", "sql", "html"
+        :param cast_none_to_nan: Cast all None value to NaN (real null values)
+        :param cast_object_to_bool: Cast all columns containing only boolean and NaN values to boolean columns
         :return: nothing
         """
         tables = self.__extent_table.get_all_tables()
         for table_name, table in tables:
+
+            if cast_none_to_nan:
+                table.replace(to_replace=[None], value=np.nan, inplace=True)
+
+            if cast_object_to_bool:
+                columns = table.columns
+
+                for column in columns:
+                    unique_values = set(table[column].astype(str).tolist())
+
+                    if unique_values.issubset({"True", "False", "None", "nan"}):
+                        table[column] = table[column].astype(bool, copy=False)
+
             if export_as == "csv":
                 table.to_csv(directory + table_name + "." + export_as, index=False)
             elif export_as == "sql":
