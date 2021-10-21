@@ -45,11 +45,11 @@ table_maker = TableMaker(extent_table)
 
 table_maker.convert_json_objects_to_tables(automobiles, "automobiles")
 
+table_maker.show_tables(8)
+
 # Set cast_none_to_nan to True if you prefer real Null values (recommended)
 # Set cast_object_to_bool to True if you want to save real json booleans (recommended but slower)
-table_maker.save_tables("./", cast_none_to_nan=True, cast_object_to_bool=True)
-
-table_maker.show_tables(8)
+# table_maker.save_tables("./", cast_none_to_nan=True, cast_object_to_bool=True)
 
 # Saving the state of the ExtentTable object for later use
 
